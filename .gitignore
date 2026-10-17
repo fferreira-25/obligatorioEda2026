@@ -1,0 +1,6 @@
+# Compilados
+main
+main.exe
+*.o
+# Carpeta temporal
+_borrar/
