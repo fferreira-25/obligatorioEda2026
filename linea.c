@@ -68,7 +68,15 @@ void BorrarOcurrenciasPalabraEnLinea(linea &l, Cadena palabra){
 
 void ImprimirLinea(linea l){
 // Letra: op. 11 ImprimirLinea y op. 6 ImprimirTexto (Tipo 1).
-	// TODO: formato exacto "Palabra1 Palabra2".
+// TODO: formato exacto "Palabra1 Palabra2".
+if(l->cant > 0){
+	for(int i = 0; i < l->cant; i++){
+		cout << l->palabras[i];
+		if(i < l->cant - 1){
+			cout << " ";
+		}
+	}
+}
 }
 
 linea DestruirLinea(linea l){
