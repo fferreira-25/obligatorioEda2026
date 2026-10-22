@@ -83,23 +83,35 @@ void InsertarPalabra(linea &l, Posicion p, Cadena palabra){
 }
 
 Cadena QuitarPalabra(linea &l, Posicion p){
-// Letra: op. 8 (desborde) y op. 7 ComprimirTexto.
-// Pre: 1 <= p <= CantPalabras(l).
+//Obtengo la palabra "sobrante"
+
+	//Validaciones
 	if(l == NULL || l->primera == NULL || p < 1 || p > l->cant){
 		return NULL;
 	}
+
 	nodo_palabra * aBorrar = NULL;
 	if(p == 1){
+		// Si la palabra a suplantar es la primera uso el punto l->primera
 		aBorrar = l->primera;
 		l->primera = l->primera->sig;
 	}else{
+
+		// si no es la primera, recorro hasta la anterior a la que voy a suplantar (p-1)
 		nodo_palabra * ant = l->primera;
 		for(unsigned int i = 1; i < p - 1; i++){
 			ant = ant->sig;
 		}
+
+		// intercambio punteros.
+
+		// la siguiente va a ser la que voy a borrar
 		aBorrar = ant->sig;
+		// la siguiente de la que voy a borra va a ser la nueva siguiente.
 		ant->sig = aBorrar->sig;
 	}
+
+	// Me quedo con la palabra para devolverla como sobrante y que se pueda manipular
 	Cadena palabraRetorno = aBorrar->palabra;
 	delete aBorrar;
 	l->cant--;

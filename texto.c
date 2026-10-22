@@ -45,6 +45,7 @@ void InsertarLinea(texto &t){
 	nuevo->ant = t->ultima;
 
 	if(t->primera == NULL){
+		// si es la primer linea
 		t->primera = nuevo;
 		t->ultima = nuevo;
 	}else{
@@ -80,7 +81,7 @@ linea LineaEnPosicion(texto t, Posicion p){
 		return NULL;
 	}
 	struct nodo_lista_lineas * actual = t->primera;
-	for(unsigned int i = 1; i < p; i++){
+	for(int i = 1; i < p; i++){
 		actual = actual->sig;
 	}
 	return actual->lin;
