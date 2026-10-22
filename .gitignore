@@ -4,3 +4,4 @@ main.exe
 *.o
 # Carpeta temporal
 _borrar/
+/CMakeLists.txt
