@@ -127,7 +127,24 @@ TipoRetorno ImprimirLinea(editor & e, Posicion posicionLinea){
 // Letra: op. 11 (Tipo 1). Imprime "n: palabras". ERROR si la linea no existe.
 	// TODO: validar; cout << posicionLinea << ":"; si tiene palabras
 	// cout << " " y ImprimirLinea(l); cout << endl; return OK;
-	return NO_IMPLEMENTADA;
+	
+	for(int i = 1; i <= CantLineas(e->t); i++){
+		if(i == posicionLinea){
+			cout << posicionLinea << ":";
+			linea l = LineaEnPosicion(e->t, posicionLinea);
+			if(CantPalabras(l) > 0){
+				cout << " ";
+				ImprimirLinea(l);
+			}
+			cout << endl;
+			return OK;
+		} else if(i > CantLineas(e->t)){
+			cout << " - ERROR: La linea no existe.\n";
+			return ERROR;
+		}
+	}
+
+	return ERROR;
 }
 
 // ---------------------------------------------------------------
