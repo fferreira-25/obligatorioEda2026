@@ -1,0 +1,8 @@
+InsertarLinea()
+InsertarLinea()
+InsertarPalabra(1, 1, Hola)
+InsertarPalabra(1, 2, Como)
+InsertarPalabra(1, 3, Estas)
+BorrarPalabra(1,2)
+ImprimirLinea(1)
+salir

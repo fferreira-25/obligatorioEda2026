@@ -61,7 +61,7 @@ Cadena PalabraEnPosicion(linea l, Posicion p){
 void InsertarPalabra(linea &l, Posicion p, Cadena palabra){
 // Letra: op. 8 InsertarPalabra (Tipo 1) - parte que ocurre dentro de la linea.
 // Inserta una COPIA de palabra en la posicion p, corriendo una posicion
-// hacia adelante a las palabras desde p. El desborde a la linea siguiente
+// hacia adelante a las palabras desde p. El TestDesborde a la linea siguiente
 // lo resuelve el editor usando QuitarPalabra.
 // Pre: 1 <= p <= CantPalabras(l) + 1 y !LineaLlena(l).
 	nodo_palabra * nuevo = new nodo_palabra;

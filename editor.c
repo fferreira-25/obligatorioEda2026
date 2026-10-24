@@ -168,6 +168,7 @@ TipoRetorno BorrarPalabra(editor & e, Posicion posicionLinea, Posicion posicionP
 TipoRetorno BorrarOcurrenciasPalabraEnLinea(editor & e, Posicion posicionLinea, Cadena palabraABorrar){
 // Letra: op. 10 (Tipo 1). Borra todas las ocurrencias en la linea indicada.
 // ERROR solo si la linea no existe.
+	cout << " Borrando ocurrencias palabra ... " << endl;
 	if(posicionLinea < 1 || posicionLinea > CantLineas(e->t)){
 		return ERROR;
 	}
