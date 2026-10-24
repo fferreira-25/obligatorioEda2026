@@ -98,7 +98,7 @@ TipoRetorno InsertarPalabra(editor & e, Posicion posicionLinea, Posicion posicio
 
 	// Validar la posicion de la linea ingresada (Debe ser más grande que 0 y menor a la cantidad de lineas total)
 	if(posicionLinea < 1 || posicionLinea > CantLineas(e->t)){
-		cout << " - Debes crear una linea previamente" << endl;
+		cout << " - La linea que quieres ingresar está fuera de rango o no existe." << endl;
 		return ERROR;
 	}
 

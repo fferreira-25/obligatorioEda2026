@@ -80,9 +80,10 @@ linea LineaEnPosicion(texto t, Posicion p){
 	if(t == NULL || p < 1 || p > t->cant){
 		return NULL;
 	}
-	struct nodo_lista_lineas * actual = t->primera;
-	for(int i = 1; i < p; i++){
+	nodo_lista_lineas * actual = t->primera;
+	while(p > 1){
 		actual = actual->sig;
+		p--;
 	}
 	return actual->lin;
 }

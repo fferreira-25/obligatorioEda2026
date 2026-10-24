@@ -51,8 +51,9 @@ Cadena PalabraEnPosicion(linea l, Posicion p){
 // Retorna la palabra de la posicion p de l (sin copiarla).
 // Pre: 1 <= p <= CantPalabras(l).
 	nodo_palabra * actual = l->primera;
-	for(unsigned int i = 1; i < p; i++){
+	while(p > 1){
 		actual = actual->sig;
+		p--;
 	}
 	return actual->palabra;
 }
@@ -73,8 +74,9 @@ void InsertarPalabra(linea &l, Posicion p, Cadena palabra){
 		l->primera = nuevo;
 	}else{
 		nodo_palabra * ant = l->primera;
-		for(unsigned int i = 1; i < p - 1; i++){
+		while(p > 2 && ant->sig != NULL){
 			ant = ant->sig;
+			p--;
 		}
 		nuevo->sig = ant->sig;
 		ant->sig = nuevo;
@@ -83,7 +85,7 @@ void InsertarPalabra(linea &l, Posicion p, Cadena palabra){
 }
 
 Cadena QuitarPalabra(linea &l, Posicion p){
-//Obtengo la palabra "sobrante"
+// Obtengo la palabra "sobrante"
 
 	//Validaciones
 	if(l == NULL || l->primera == NULL || p < 1 || p > l->cant){
@@ -91,19 +93,18 @@ Cadena QuitarPalabra(linea &l, Posicion p){
 	}
 
 	nodo_palabra * aBorrar = NULL;
+
+	// es la primer palabra de la linea?
 	if(p == 1){
-		// Si la palabra a suplantar es la primera uso el punto l->primera
 		aBorrar = l->primera;
 		l->primera = l->primera->sig;
 	}else{
-
 		// si no es la primera, recorro hasta la anterior a la que voy a suplantar (p-1)
 		nodo_palabra * ant = l->primera;
-		for(unsigned int i = 1; i < p - 1; i++){
+		while(p > 2 && ant->sig != NULL){
 			ant = ant->sig;
+			p--;
 		}
-
-		// intercambio punteros.
 
 		// la siguiente va a ser la que voy a borrar
 		aBorrar = ant->sig;
