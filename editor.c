@@ -37,9 +37,10 @@ editor CrearEditor(){
 // ---------------------------------------------------------------
 
 TipoRetorno InsertarLinea(editor & e){
-	cout << " - Insertando linea ..." << endl;
-	InsertarLinea(e->t);
-	return OK;
+// Letra: op. 1 (Tipo 1). Inserta una linea vacia al final. O(1) peor caso.
+// Siempre retorna OK.
+	// TODO: InsertarLinea(e->t); return OK;
+	return NO_IMPLEMENTADA;
 }
 
 TipoRetorno InsertarLineaEnPosicion(editor & e, Posicion posicionLinea){
@@ -92,107 +93,58 @@ TipoRetorno ComprimirTexto(editor & e){
 // ---------------------------------------------------------------
 
 TipoRetorno InsertarPalabra(editor & e, Posicion posicionLinea, Posicion posicionPalabra, Cadena palabraAIngresar){
-// Inserta la cadena palabra en una posicion de la linea dada, y luego en una posicion de la palabra.
-
-	cout << " - Insertando palabra : " << palabraAIngresar << endl;
-
-	// Validar la posicion de la linea ingresada (Debe ser más grande que 0 y menor a la cantidad de lineas total)
-	if(posicionLinea < 1 || posicionLinea > CantLineas(e->t)){
-		cout << " - Debes crear una linea previamente" << endl;
-		return ERROR;
-	}
-
-	// me traigo la linea en la que se quiere ingresar la palabra
-	linea lInicio = LineaEnPosicion(e->t, posicionLinea);
-	if(posicionPalabra < 1 || posicionPalabra > CantPalabras(lInicio) + 1){
-		cout << " - La palabra " << palabraAIngresar << " no se puede agregar en esa posición. " << endl;
-		return ERROR;
-	}
-
-	// TODO: Debemos reigstrar la palabra en las ulitmas palabras ingresadas
-	RegistrarPalabra(e->u, palabraAIngresar);
-
-	// Chequeamos si desbordó
-	Cadena palabraActual = palabraAIngresar;
-	Posicion posActual = posicionPalabra;
-	Posicion lineaActual = posicionLinea;
-	bool esSobrante = false;
-
-	while(palabraActual != NULL){
-
-		// Se agrega una linea más en caso de que estén faltando
-		if(lineaActual > CantLineas(e->t)){
-			InsertarLinea(e->t);
-		}
-
-		// Obtengo la linea de la posicion lineaActual
-		linea l = LineaEnPosicion(e->t, lineaActual);
-		Cadena sobrante = NULL;
-
-		// Si la linea ya tiene el maximo de palabras borro la palabra y me la traigo como sobrante
-		if(LineaLlena(l)){
-			sobrante = QuitarPalabra(l, CantPalabras(l));
-		}
-
-		// inserto la palabra en la posicion que quiero
-		InsertarPalabra(l, posActual, palabraActual);
-
-		if(esSobrante){
-			delete [] palabraActual;
-		}
-
-		palabraActual = sobrante;
-		posActual = 1;
-		lineaActual++;
-		esSobrante = true;
-	}
-
-	return OK;
+// Letra: op. 8 (Tipo 1). Inserta la palabra en la linea y posicion dadas.
+// Si la linea se desborda, la ultima palabra pasa a la posicion 1 de la
+// siguiente, y asi sucesivamente; si no hay siguiente se crea una al final.
+// ERROR si la linea no existe o posicionPalabra no esta en 1..cant+1.
+	// TODO:
+	//   1. validar: posicionLinea existe (1..CantLineas) y
+	//      1 <= posicionPalabra <= CantPalabras(l) + 1.
+	//   2. RegistrarPalabra(e->u, palabraAIngresar)   (op. 16).
+	//   3. si LineaLlena(l): sobrante = QuitarPalabra(l, MAX) antes de insertar.
+	//   4. InsertarPalabra(l, posicionPalabra, palabraAIngresar).
+	//   5. mientras haya sobrante: pasar a la linea siguiente (InsertarLinea
+	//      si no existe), repetir 3 y 4 con posicion 1; delete [] cada sobrante
+	//      despues de insertarlo (InsertarPalabra lo copia).
+	return NO_IMPLEMENTADA;
 }
 
 TipoRetorno BorrarPalabra(editor & e, Posicion posicionLinea, Posicion posicionPalabra){
-// Elimina palabra de una linea y una posición
-
-	cout << " Borrando palabra ... " << endl;
- 	if(posicionLinea < 1 || posicionLinea > CantLineas(e->t)){
-		return ERROR;
-	}
-	linea l = LineaEnPosicion(e->t, posicionLinea);
-	if(posicionPalabra < 1 || posicionPalabra > CantPalabras(l)){
-		return ERROR;
-	}
-	BorrarPalabra(l, posicionPalabra);
-	return OK;
+// Letra: op. 9 (Tipo 1). Borra la palabra indicada.
+// ERROR si la linea o la palabra no existen.
+	// TODO: validar; BorrarPalabra(l, posicionPalabra); return OK;
+	return NO_IMPLEMENTADA;
 }
 
 TipoRetorno BorrarOcurrenciasPalabraEnLinea(editor & e, Posicion posicionLinea, Cadena palabraABorrar){
 // Letra: op. 10 (Tipo 1). Borra todas las ocurrencias en la linea indicada.
 // ERROR solo si la linea no existe.
-	if(posicionLinea < 1 || posicionLinea > CantLineas(e->t)){
-		return ERROR;
-	}
-	linea l = LineaEnPosicion(e->t, posicionLinea);
-	BorrarOcurrenciasPalabraEnLinea(l, palabraABorrar);
-	return OK;
+	// TODO: validar; BorrarOcurrenciasPalabraEnLinea(l, palabraABorrar); return OK;
+	return NO_IMPLEMENTADA;
 }
 
 TipoRetorno ImprimirLinea(editor & e, Posicion posicionLinea){
-// Se imprime linea
-
-	cout << " Linea";
-
-	if(posicionLinea < 1 || posicionLinea > CantLineas(e->t)){
-		cout << "- Linea invalida" << endl;
-		return ERROR;
+// Letra: op. 11 (Tipo 1). Imprime "n: palabras". ERROR si la linea no existe.
+	// TODO: validar; cout << posicionLinea << ":"; si tiene palabras
+	// cout << " " y ImprimirLinea(l); cout << endl; return OK;
+	
+	for(int i = 1; i <= CantLineas(e->t); i++){
+		if(i == posicionLinea){
+			cout << posicionLinea << ":";
+			linea l = LineaEnPosicion(e->t, posicionLinea);
+			if(CantPalabras(l) > 0){
+				cout << " ";
+				ImprimirLinea(l);
+			}
+			cout << endl;
+			return OK;
+		} else if(i > CantLineas(e->t)){
+			cout << " - ERROR: La linea no existe.\n";
+			return ERROR;
+		}
 	}
-	linea l = LineaEnPosicion(e->t, posicionLinea);
-	cout << posicionLinea << ":";
-	if(CantPalabras(l) > 0){
-		cout << " ";
-		ImprimirLinea(l);
-	}
-	cout << endl;
-	return OK;
+
+	return ERROR;
 }
 
 // ---------------------------------------------------------------

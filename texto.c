@@ -39,20 +39,8 @@ unsigned int CantLineas(texto t){
 
 void InsertarLinea(texto &t){
 // Letra: op. 1 InsertarLinea (Tipo 1). O(1) peor caso.
-	nodo_lista_lineas * nuevo = new nodo_lista_lineas;
-	nuevo->lin = CrearLinea();
-	nuevo->sig = NULL;
-	nuevo->ant = t->ultima;
-
-	if(t->primera == NULL){
-		// si es la primer linea
-		t->primera = nuevo;
-		t->ultima = nuevo;
-	}else{
-		t->ultima->sig = nuevo;
-		t->ultima = nuevo;
-	}
-	t->cant++;
+	// TODO: new nodo con lin = CrearLinea(), engancharlo despues de ultima.
+	// Caso borde: texto vacio (primera == NULL).
 }
 
 bool InsertarLineaEnPosicion(texto &t, Posicion p){
@@ -77,14 +65,8 @@ void BorrarTodo(texto &t){
 
 linea LineaEnPosicion(texto t, Posicion p){
 // Retorna la linea p de t. Pre: p existe en t.
-	if(t == NULL || p < 1 || p > t->cant){
-		return NULL;
-	}
-	struct nodo_lista_lineas * actual = t->primera;
-	for(int i = 1; i < p; i++){
-		actual = actual->sig;
-	}
-	return actual->lin;
+	// TODO: recorrer desde primera p-1 veces.
+	return NULL;
 }
 
 void ImprimirTexto(texto t){
