@@ -45,35 +45,43 @@ TipoRetorno InsertarLinea(editor & e){
 TipoRetorno InsertarLineaEnPosicion(editor & e, Posicion posicionLinea){
 // Letra: op. 2 (Tipo 1). Inserta una linea vacia en la posicion indicada.
 // ERROR si la posicion no es valida (1..cant+1).
-	// TODO: return InsertarLineaEnPosicion(e->t, posicionLinea) ? OK : ERROR;
-	return NO_IMPLEMENTADA;
+	if(InsertarLineaEnPosicion(e->t, posicionLinea)){
+		return OK;
+	}else{
+		return ERROR;
+	}
 }
 
 TipoRetorno BorrarLinea(editor & e, Posicion posicionLinea){
 // Letra: op. 3 (Tipo 2). Borra la linea indicada. ERROR si no existe.
-	// TODO: return BorrarLinea(e->t, posicionLinea) ? OK : ERROR;
-	return NO_IMPLEMENTADA;
+	if(BorrarLinea(e->t, posicionLinea)){
+		return OK;
+	}else{
+		return ERROR;
+	}
 }
 
 TipoRetorno BorrarTodo(editor & e){
 // Letra: op. 4 (Tipo 2). Borra todas las lineas. Siempre OK.
-	// TODO: BorrarTodo(e->t); return OK;
-	return NO_IMPLEMENTADA;
+	BorrarTodo(e->t);
+	return OK;
 }
 
 TipoRetorno BorrarOcurrenciasPalabraEnTexto(editor & e, Cadena palabraABorrar){
 // Letra: op. 5 (Tipo 1). Borra todas las ocurrencias en todas las lineas.
 // Solo corre palabras dentro de cada linea (no rellena desde la siguiente).
 // Siempre OK, aunque no borre nada.
-	// TODO: for p = 1..CantLineas(e->t):
-	//   linea l = LineaEnPosicion(e->t, p); BorrarOcurrenciasPalabraEnLinea(l, palabraABorrar);
-	return NO_IMPLEMENTADA;
+	for(Posicion p = 1; p <= CantLineas(e->t); p++){
+		linea l = LineaEnPosicion(e->t, p);
+		BorrarOcurrenciasPalabraEnLinea(l, palabraABorrar);
+	}
+	return OK;
 }
 
 TipoRetorno ImprimirTexto(editor & e){
 // Letra: op. 6 (Tipo 1). "n: palabras" por linea, o "Texto vacio".
-	// TODO: ImprimirTexto(e->t); return OK;
-	return NO_IMPLEMENTADA;
+	ImprimirTexto(e->t);
+	return OK;
 }
 
 TipoRetorno ComprimirTexto(editor & e){

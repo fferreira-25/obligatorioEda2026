@@ -1,0 +1,10 @@
+BorrarTodo()
+InsertarLinea()
+InsertarLinea()
+InsertarPalabra(2, 1, Palabra1)
+BorrarTodo()
+ImprimirLinea(1)
+InsertarLinea()
+InsertarPalabra(1, 1, Otra)
+ImprimirLinea(1)
+salir
