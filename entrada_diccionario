@@ -1,0 +1,6 @@
+ImprimirDiccionario()
+IngresarPalabraDiccionario(Hoja)
+IngresarPalabraDiccionario(Hojalata)
+IngresarPalabraDiccionario(Bosque)
+ImprimirDiccionario()
+salir

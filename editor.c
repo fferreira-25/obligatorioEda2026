@@ -209,10 +209,14 @@ TipoRetorno ImprimirLinea(editor & e, Posicion posicionLinea){
 // ---------------------------------------------------------------
 
 TipoRetorno IngresarPalabraDiccionario(editor & e, Cadena palabraAIngresar){
-// Letra: op. 12 (Tipo 1). O(log n) promedio. ERROR si ya existe.
-	// TODO: if PerteneceDiccionario -> ERROR;
-	// e->d = IngresarPalabraDiccionario(e->d, palabraAIngresar); return OK;
-	return NO_IMPLEMENTADA;
+// Letra: op. 12 (Tipo 1). O(log n) promedio. ERROR si ya existe.;
+
+	cout << " Ingresando palabra al diccionario: " << palabraAIngresar << endl;
+	if(PerteneceDiccionario(e->d, palabraAIngresar)){
+		return ERROR;                              // ya estaba en el diccionario
+	}
+	e->d = IngresarPalabraDiccionario(e->d, palabraAIngresar);
+	return OK;
 }
 
 TipoRetorno BorrarPalabraDiccionario(editor & e, Cadena palabraABorrar){
@@ -224,8 +228,8 @@ TipoRetorno BorrarPalabraDiccionario(editor & e, Cadena palabraABorrar){
 
 TipoRetorno ImprimirDiccionario(editor & e){
 // Letra: op. 14 (Tipo 1). Alfabetico, O(n) peor caso.
-	// TODO: ImprimirDiccionario(e->d); return OK;
-	return NO_IMPLEMENTADA;
+	ImprimirDiccionario(e->d);
+	return OK;
 }
 
 TipoRetorno ImprimirTextoIncorrecto(editor & e){

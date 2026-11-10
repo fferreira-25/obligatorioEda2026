@@ -24,15 +24,40 @@ diccionario CrearDiccionario(){
 
 bool PerteneceDiccionario(diccionario d, Cadena palabra){
 // Retorna true si palabra esta en d (ignorando mayusculas).
-	// TODO: recursivo. PB: d == NULL -> false. PI: strcasecmp y bajar.
-	return false;
+// Busqueda en ABB: O(log n) promedio.
+// Pre:  -
+// Pos:  retorna true si palabra pertenece a d, false en caso contrario.
+	if(d == NULL){                                 // PB: arbol vacio -> no esta
+		return false;
+	}
+	int cmp = strcasecmp(palabra, d->palabra);     // ignora mayus/minus
+	if(cmp == 0){                                  // la encontre
+		return true;
+	}else if(cmp < 0){                             // es menor -> bajo a izq
+		return PerteneceDiccionario(d->izq, palabra);
+	}else{                                         // es mayor -> bajo a der
+		return PerteneceDiccionario(d->der, palabra);
+	}
 }
 
 diccionario IngresarPalabraDiccionario(diccionario d, Cadena palabra){
 // Letra: op. 12 IngresarPalabraDiccionario (Tipo 1). O(log n) promedio.
-// Pre: !PerteneceDiccionario(d, palabra).
-	// TODO: PB: d == NULL -> new nodo con la copia, izq = der = NULL.
-	// PI: d->izq = ...(d->izq) o d->der = ...(d->der); return d.
+// Inserta una COPIA de palabra manteniendo el orden del ABB.
+// Pre:  !PerteneceDiccionario(d, palabra).
+// Pos:  retorna el diccionario con palabra agregada.
+	if(d == NULL){                                 // PB: lugar libre -> nodo nuevo
+		diccionario nuevo = new(nodo_diccionario);
+		nuevo->palabra = new char[strlen(palabra) + 1];
+		strcpy(nuevo->palabra, palabra);           // guardo la palabra tal cual
+		nuevo->izq = NULL;
+		nuevo->der = NULL;
+		return nuevo;
+	}
+	if(strcasecmp(palabra, d->palabra) < 0){       // PI: menor -> sigue por izq
+		d->izq = IngresarPalabraDiccionario(d->izq, palabra);
+	}else{                                         // mayor -> sigue por der
+		d->der = IngresarPalabraDiccionario(d->der, palabra);
+	}
 	return d;
 }
 
@@ -44,10 +69,24 @@ diccionario BorrarPalabraDiccionario(diccionario d, Cadena palabra){
 	return d;
 }
 
+static void imprimirEnOrden(diccionario d){
+// Auxiliar: recorrido in-order (izq, nodo, der) -> imprime ordenado.
+	if(d != NULL){
+		imprimirEnOrden(d->izq);
+		cout << d->palabra << endl;
+		imprimirEnOrden(d->der);
+	}
+}
+
 void ImprimirDiccionario(diccionario d){
 // Letra: op. 14 ImprimirDiccionario (Tipo 1). O(n) peor caso.
-	// TODO: si d == NULL "Diccionario vacio"; si no, in-order (izq, nodo, der)
-	// con una auxiliar recursiva.
+// Imprime las palabras de menor a mayor, una por renglon.
+// Si d es vacio imprime "Diccionario vacio".
+	if(d == NULL){
+		cout << "Diccionario vacio" << endl;
+	}else{
+		imprimirEnOrden(d);                         // in-order = alfabetico
+	}
 }
 
 diccionario DestruirDiccionario(diccionario d){
