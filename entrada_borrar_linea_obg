@@ -1,0 +1,7 @@
+InsertarLinea()
+InsertarLinea()
+InsertarPalabra(2, 1, "Palabra1")
+ImprimirTexto()
+BorrarLinea(1)
+ImprimirTexto()
+salir

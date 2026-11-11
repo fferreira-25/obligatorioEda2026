@@ -1,0 +1,6 @@
+InsertarLineaEnPosicion(1)
+InsertarPalabra(1, 1, "Palabra1")
+ImprimirTexto()
+InsertarLineaEnPosicion(1)
+ImprimirTexto()
+salir

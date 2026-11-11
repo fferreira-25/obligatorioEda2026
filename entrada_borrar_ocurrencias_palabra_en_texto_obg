@@ -1,0 +1,12 @@
+InsertarLinea()
+InsertarLinea()
+InsertarPalabra(1, 1, "Palabra1")
+InsertarPalabra(1, 2, "Palabra2")
+InsertarPalabra(2, 1, "Palabra1")
+InsertarPalabra(2, 1, "Palabra2")
+InsertarLineaEnPosicion(2)
+InsertarPalabra(2, 1, "Palabra2")
+ImprimirTexto()
+BorrarOcurrenciasPalabraEnTexto("Palabra2");
+ImprimirTexto();
+salir
