@@ -117,7 +117,7 @@ TipoRetorno InsertarPalabra(editor & e, Posicion posicionLinea, Posicion posicio
 		return ERROR;
 	}
 
-	// TODO: Debemos reigstrar la palabra en las ulitmas palabras ingresadas
+	// TODO: Debemos reigstrar la palabra en las ULTIMAS palabras ingresadas
 	RegistrarPalabra(e->u, palabraAIngresar);
 
 	// Chequeamos si desbordó

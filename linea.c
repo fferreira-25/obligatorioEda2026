@@ -5,18 +5,14 @@
 // Modulo de implementacion de linea.
 
 #include "linea.h"
+#include "palabra.h"
 #include <string.h>
 #include <iostream>
 
 using namespace std;
 
-struct nodo_palabra{
-	Cadena palabra;
-	nodo_palabra * sig;
-};
-
 struct nodo_linea{
-	nodo_palabra * primera;
+	palabra primera;
 	unsigned int cant;
 };
 
@@ -50,36 +46,33 @@ bool LineaLlena(linea l){
 Cadena PalabraEnPosicion(linea l, Posicion p){
 // Retorna la palabra de la posicion p de l (sin copiarla).
 // Pre: 1 <= p <= CantPalabras(l).
-	nodo_palabra * actual = l->primera;
+	palabra actual = l->primera;
 	while(p > 1){
-		actual = actual->sig;
+		actual = ObtenerSiguientePalabra(actual);
 		p--;
 	}
-	return actual->palabra;
+	return ObtenerCadena(actual);
 }
 
-void InsertarPalabra(linea &l, Posicion p, Cadena palabra){
+void InsertarPalabra(linea &l, Posicion p, Cadena palabraAIngresar){
 // Letra: op. 8 InsertarPalabra (Tipo 1) - parte que ocurre dentro de la linea.
 // Inserta una COPIA de palabra en la posicion p, corriendo una posicion
 // hacia adelante a las palabras desde p. El TestDesborde a la linea siguiente
 // lo resuelve el editor usando QuitarPalabra.
 // Pre: 1 <= p <= CantPalabras(l) + 1 y !LineaLlena(l).
-	nodo_palabra * nuevo = new nodo_palabra;
-	nuevo->palabra = new char[strlen(palabra) + 1];
-	strcpy(nuevo->palabra, palabra);
-	nuevo->sig = NULL;
+	palabra nuevo = CrearPalabra(palabraAIngresar);
 
 	if(p == 1){
-		nuevo->sig = l->primera;
+		AsignarSiguientePalabra(nuevo, l->primera);
 		l->primera = nuevo;
 	}else{
-		nodo_palabra * ant = l->primera;
-		while(p > 2 && ant->sig != NULL){
-			ant = ant->sig;
+		palabra ant = l->primera;
+		while(p > 2 && ObtenerSiguientePalabra(ant) != NULL){
+			ant = ObtenerSiguientePalabra(ant);
 			p--;
 		}
-		nuevo->sig = ant->sig;
-		ant->sig = nuevo;
+		AsignarSiguientePalabra(nuevo, ObtenerSiguientePalabra(ant));
+		AsignarSiguientePalabra(ant, nuevo);
 	}
 	l->cant++;
 }
@@ -92,29 +85,28 @@ Cadena QuitarPalabra(linea &l, Posicion p){
 		return NULL;
 	}
 
-	nodo_palabra * aBorrar = NULL;
+	palabra aBorrar = NULL;
 
 	// es la primer palabra de la linea?
 	if(p == 1){
 		aBorrar = l->primera;
-		l->primera = l->primera->sig;
+		l->primera = ObtenerSiguientePalabra(l->primera);
 	}else{
 		// si no es la primera, recorro hasta la anterior a la que voy a suplantar (p-1)
-		nodo_palabra * ant = l->primera;
-		while(p > 2 && ant->sig != NULL){
-			ant = ant->sig;
+		palabra ant = l->primera;
+		while(p > 2 && ObtenerSiguientePalabra(ant) != NULL){
+			ant = ObtenerSiguientePalabra(ant);
 			p--;
 		}
 
 		// la siguiente va a ser la que voy a borrar
-		aBorrar = ant->sig;
-		// la siguiente de la que voy a borra va a ser la nueva siguiente.
-		ant->sig = aBorrar->sig;
+		aBorrar = ObtenerSiguientePalabra(ant);
+		// la siguiente de la que voy a borrar va a ser la nueva siguiente.
+		AsignarSiguientePalabra(ant, ObtenerSiguientePalabra(aBorrar));
 	}
 
-	// Me quedo con la palabra para devolverla como sobrante y que se pueda manipular
-	Cadena palabraRetorno = aBorrar->palabra;
-	delete aBorrar;
+	// Extraigo la palabra sobrante para reengancharla en otra linea (desborde o compresion)
+	Cadena palabraRetorno = ExtraerCadena(aBorrar);
 	l->cant--;
 	return palabraRetorno;
 }
@@ -122,35 +114,34 @@ Cadena QuitarPalabra(linea &l, Posicion p){
 void BorrarPalabra(linea &l, Posicion p){
 // Letra: op. 9 BorrarPalabra (Tipo 1).
 // Pre: 1 <= p <= CantPalabras(l).
-	Cadena palabra = QuitarPalabra(l, p);
-	if(palabra != NULL){
-		delete [] palabra;
+	Cadena cad = QuitarPalabra(l, p);
+	if(cad != NULL){
+		delete [] cad;
 	}
 }
 
-void BorrarOcurrenciasPalabraEnLinea(linea &l, Cadena palabra){
+void BorrarOcurrenciasPalabraEnLinea(linea &l, Cadena palabraABorrar){
 // Letra: op. 10 BorrarOcurrenciasPalabraEnLinea y op. 5 (Tipo 1).
 	if(l == NULL || l->primera == NULL) return;
 
-	nodo_palabra * actual = l->primera;
-	nodo_palabra * ant = NULL;
+	palabra actual = l->primera;
+	palabra ant = NULL;
 
 	while(actual != NULL){
-		if(strcasecmp(actual->palabra, palabra) == 0){
-			nodo_palabra * aBorrar = actual;
+		if(strcasecmp(ObtenerCadena(actual), palabraABorrar) == 0){
+			palabra aBorrar = actual;
 			if(ant == NULL){
-				l->primera = actual->sig;
+				l->primera = ObtenerSiguientePalabra(actual);
 				actual = l->primera;
 			}else{
-				ant->sig = actual->sig;
-				actual = ant->sig;
+				AsignarSiguientePalabra(ant, ObtenerSiguientePalabra(actual));
+				actual = ObtenerSiguientePalabra(ant);
 			}
-			delete [] aBorrar->palabra;
-			delete aBorrar;
+			DestruirPalabra(aBorrar);
 			l->cant--;
 		}else{
 			ant = actual;
-			actual = actual->sig;
+			actual = ObtenerSiguientePalabra(actual);
 		}
 	}
 }
@@ -158,13 +149,13 @@ void BorrarOcurrenciasPalabraEnLinea(linea &l, Cadena palabra){
 void ImprimirLinea(linea l){
 // Letra: op. 11 ImprimirLinea y op. 6 ImprimirTexto (Tipo 1).
 	if(l != NULL){
-		nodo_palabra * actual = l->primera;
+		palabra actual = l->primera;
 		while(actual != NULL){
-			cout << actual->palabra;
-			if(actual->sig != NULL){
+			cout << ObtenerCadena(actual);
+			if(ObtenerSiguientePalabra(actual) != NULL){
 				cout << " ";
 			}
-			actual = actual->sig;
+			actual = ObtenerSiguientePalabra(actual);
 		}
 	}
 }
@@ -172,12 +163,11 @@ void ImprimirLinea(linea l){
 linea DestruirLinea(linea l){
 // Destruye l y libera la memoria de sus palabras. Retorna NULL.
 	if(l != NULL){
-		nodo_palabra * actual = l->primera;
+		palabra actual = l->primera;
 		while(actual != NULL){
-			nodo_palabra * aBorrar = actual;
-			actual = actual->sig;
-			delete [] aBorrar->palabra;
-			delete aBorrar;
+			palabra aBorrar = actual;
+			actual = ObtenerSiguientePalabra(actual);
+			DestruirPalabra(aBorrar);
 		}
 		delete l;
 	}
