@@ -88,11 +88,47 @@ TipoRetorno ComprimirTexto(editor & e){
 // Letra: op. 7 (Opcional). Reubica las palabras para que todas las lineas
 // (salvo quiza la ultima) queden llenas; no quedan lineas vacias.
 // No debe generarse un nuevo documento.
-	// TODO: dos cursores (linea destino, linea origen). Mientras la destino
-	// no este llena: pal = QuitarPalabra(origen, 1);
-	// InsertarPalabra(destino, cant+1, pal); delete [] pal.
-	// Al final, BorrarLinea de las lineas vacias que queden.
-	return NO_IMPLEMENTADA;
+	if (e == NULL || e->t == NULL || CantLineas(e->t) == 0) {
+		return OK;
+	}
+
+	// Iteradores de la posicion de las lineas
+	Posicion lineaActual = 1;
+	Posicion lineaBusqueda = 2;
+	bool quedanPalabras = true;
+
+	while (lineaActual <= CantLineas(e->t) && quedanPalabras) {
+		linea lActual = LineaEnPosicion(e->t, lineaActual);
+
+		if (LineaLlena(lActual)) {
+			lineaActual++;
+			if (lineaBusqueda <= lineaActual) {
+				lineaBusqueda = lineaActual + 1;
+			}
+		} else {
+			// Busco la siguiente linea con palabras
+			while (lineaBusqueda <= CantLineas(e->t) && CantPalabras(LineaEnPosicion(e->t, lineaBusqueda)) == 0) {
+				lineaBusqueda++;
+			}
+
+			// Si no hay mas palabras en todo el texto, apagamos la bandera
+			if (lineaBusqueda > CantLineas(e->t)) {
+				quedanPalabras = false;
+			} else {
+				linea lBusqueda = LineaEnPosicion(e->t, lineaBusqueda);
+				Cadena pal = QuitarPalabra(lBusqueda, 1);
+				InsertarPalabra(lActual, CantPalabras(lActual) + 1, pal);
+				delete [] pal;
+			}
+		}
+	}
+
+	// Borrar las lineas que hayan quedado vacias al final
+	while (CantLineas(e->t) > 0 && CantPalabras(LineaEnPosicion(e->t, CantLineas(e->t))) == 0) {
+		BorrarLinea(e->t, CantLineas(e->t));
+	}
+
+	return OK;
 }
 
 // ---------------------------------------------------------------
