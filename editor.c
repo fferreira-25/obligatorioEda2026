@@ -274,7 +274,31 @@ TipoRetorno ImprimirTextoIncorrecto(editor & e){
 	// TODO: por cada linea: cout << n << ":"; por cada palabra p:
 	// if !PerteneceDiccionario(e->d, PalabraEnPosicion(l, p)) cout << " " << palabra;
 	// endl.
-	return NO_IMPLEMENTADA;
+
+	// recorro todas las lineas del texto
+	for (int i = 1; i <= CantLineas(e->t); i++) {
+
+		// obtengo la linea en la posicion i
+		linea l = LineaEnPosicion(e->t, i);
+
+		if (CantPalabras(l) > 0) {
+
+			// imprimo el indice de la linea
+			cout << i + 1 << ":";
+			for (int j = 0; j < CantPalabras(l); j++) {
+				
+				Cadena palabra = PalabraEnPosicion(l, j + 1);
+				if (!PerteneceDiccionario(e->d, palabra)) {
+					cout << " " << palabra;
+				}
+			}
+			cout << endl;
+		}
+		
+	} 
+
+
+	return OK;
 }
 
 TipoRetorno ImprimirUltimasPalabras(editor & e){
