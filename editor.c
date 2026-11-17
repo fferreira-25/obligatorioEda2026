@@ -306,7 +306,8 @@ TipoRetorno ImprimirTextoIncorrecto(editor & e){
 TipoRetorno ImprimirUltimasPalabras(editor & e){
 // Letra: op. 16 (Opcional). Ultimas MAX_CANT_ULTIMAS_PALABRAS ingresadas.
 	// TODO: ImprimirUltimasPalabras(e->u); return OK;
-	return NO_IMPLEMENTADA;
+	ImprimirUltimasPalabras(e->u);
+	return OK;
 }
 
 TipoRetorno DestruirEditor(editor & e){
