@@ -91,6 +91,11 @@ void ImprimirDiccionario(diccionario d){
 
 diccionario DestruirDiccionario(diccionario d){
 // Destruye d y libera la memoria asociada. Retorna NULL.
-	// TODO: post-order: destruir izq, der, delete [] palabra, delete d.
+	if(d != NULL){
+		DestruirDiccionario(d->izq);
+		DestruirDiccionario(d->der);
+		delete [] d->palabra;
+		delete d;
+	}
 	return NULL;
 }

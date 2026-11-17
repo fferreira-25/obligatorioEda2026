@@ -276,7 +276,7 @@ TipoRetorno ImprimirTextoIncorrecto(editor & e){
 	// endl.
 
 	// recorro todas las lineas del texto
-	for (int i = 1; i <= CantLineas(e->t); i++) {
+	for (unsigned int i = 1; i <= CantLineas(e->t); i++) {
 
 		// obtengo la linea en la posicion i
 		linea l = LineaEnPosicion(e->t, i);
@@ -285,7 +285,7 @@ TipoRetorno ImprimirTextoIncorrecto(editor & e){
 
 			// imprimo el indice de la linea
 			cout << i + 1 << ":";
-			for (int j = 0; j < CantPalabras(l); j++) {
+			for (unsigned int j = 0; j < CantPalabras(l); j++) {
 				
 				Cadena palabra = PalabraEnPosicion(l, j + 1);
 				if (!PerteneceDiccionario(e->d, palabra)) {
