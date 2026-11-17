@@ -153,7 +153,7 @@ TipoRetorno InsertarPalabra(editor & e, Posicion posicionLinea, Posicion posicio
 		return ERROR;
 	}
 
-	// TODO: Debemos reigstrar la palabra en las ULTIMAS palabras ingresadas
+	// Op. 16: registro la palabra recien despues de validar (si da ERROR no cuenta).
 	RegistrarPalabra(e->u, palabraAIngresar);
 
 	// Chequeamos si desbordó
@@ -303,8 +303,8 @@ TipoRetorno ImprimirTextoIncorrecto(editor & e){
 
 TipoRetorno ImprimirUltimasPalabras(editor & e){
 // Letra: op. 16 (Opcional). Ultimas MAX_CANT_ULTIMAS_PALABRAS ingresadas.
-	// TODO: ImprimirUltimasPalabras(e->u); return OK;
-	return NO_IMPLEMENTADA;
+	ImprimirUltimasPalabras(e->u);
+	return OK;
 }
 
 TipoRetorno DestruirEditor(editor & e){

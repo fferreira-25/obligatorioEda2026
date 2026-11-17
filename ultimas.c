@@ -27,18 +27,49 @@ ultimas CrearUltimas(){
 
 void RegistrarPalabra(ultimas &u, Cadena palabra){
 // Letra: op. 16 (Opcional) - se llama desde la op. 8. O(1).
-	// TODO: si cant == MAX, delete [] palabras[prox]. Guardar la copia en
-	// palabras[prox]; prox = (prox + 1) % MAX; si cant < MAX, cant++.
+	// Si el arreglo esta lleno, en prox esta la mas antigua: la libero.
+	if(u->cant == MAX_CANT_ULTIMAS_PALABRAS){
+		delete [] u->palabras[u->prox];
+	}else{
+		u->cant++;
+	}
+	// Guardo una COPIA (el main pisa la cadena en el proximo comando).
+	u->palabras[u->prox] = new char[strlen(palabra) + 1];
+	strcpy(u->palabras[u->prox], palabra);
+	// Avanzo en circulo: despues del ultimo indice vuelve al 0.
+	u->prox = (u->prox + 1) % MAX_CANT_ULTIMAS_PALABRAS;
 }
 
 void ImprimirUltimasPalabras(ultimas u){
 // Letra: op. 16 ImprimirUltimasPalabras (Opcional).
-	// TODO: si cant == 0 "No se ingresaron palabras". La mas reciente esta
-	// en (prox - 1 + MAX) % MAX; retroceder cant veces.
+// Imprime de la mas reciente a la mas antigua, una por renglon.
+	if(u->cant == 0){
+		cout << "No se ingresaron palabras" << endl;
+		return;
+	}
+	// La mas reciente esta una posicion antes de prox.
+	unsigned int i = u->prox;
+	unsigned int faltan = u->cant;
+	while(faltan > 0){
+		// Retrocedo en circulo: sumo MAX antes de restar para no bajar de 0.
+		i = (i + MAX_CANT_ULTIMAS_PALABRAS - 1) % MAX_CANT_ULTIMAS_PALABRAS;
+		cout << u->palabras[i] << endl;
+		faltan--;
+	}
 }
 
 ultimas DestruirUltimas(ultimas u){
 // Destruye u y libera la memoria asociada. Retorna NULL.
-	// TODO: delete [] de las cant palabras registradas y delete u.
+	if(u != NULL){
+		// Las cant palabras registradas estan en las cant posiciones anteriores a prox.
+		unsigned int i = u->prox;
+		unsigned int faltan = u->cant;
+		while(faltan > 0){
+			i = (i + MAX_CANT_ULTIMAS_PALABRAS - 1) % MAX_CANT_ULTIMAS_PALABRAS;
+			delete [] u->palabras[i];
+			faltan--;
+		}
+		delete u;
+	}
 	return NULL;
 }
