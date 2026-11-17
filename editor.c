@@ -153,7 +153,7 @@ TipoRetorno InsertarPalabra(editor & e, Posicion posicionLinea, Posicion posicio
 		return ERROR;
 	}
 
-	// Op. 16: registro la palabra recien despues de validar (si da ERROR no cuenta).
+	// TODO: Debemos reigstrar la palabra en las ULTIMAS palabras ingresadas
 	RegistrarPalabra(e->u, palabraAIngresar);
 
 	// Chequeamos si desbordó
@@ -257,9 +257,11 @@ TipoRetorno IngresarPalabraDiccionario(editor & e, Cadena palabraAIngresar){
 
 TipoRetorno BorrarPalabraDiccionario(editor & e, Cadena palabraABorrar){
 // Letra: op. 13 (Tipo 2). ERROR si la palabra no existe.
-	// TODO: if !PerteneceDiccionario -> ERROR;
-	// e->d = BorrarPalabraDiccionario(e->d, palabraABorrar); return OK;
-	return NO_IMPLEMENTADA;
+	if(!PerteneceDiccionario(e->d, palabraABorrar)){
+		return ERROR;                              // no esta: no hay nada que borrar
+	}
+	e->d = BorrarPalabraDiccionario(e->d, palabraABorrar);
+	return OK;
 }
 
 TipoRetorno ImprimirDiccionario(editor & e){
@@ -276,7 +278,7 @@ TipoRetorno ImprimirTextoIncorrecto(editor & e){
 	// endl.
 
 	// recorro todas las lineas del texto
-	for (unsigned int i = 1; i <= CantLineas(e->t); i++) {
+	for (int i = 1; i <= CantLineas(e->t); i++) {
 
 		// obtengo la linea en la posicion i
 		linea l = LineaEnPosicion(e->t, i);
@@ -285,7 +287,7 @@ TipoRetorno ImprimirTextoIncorrecto(editor & e){
 
 			// imprimo el indice de la linea
 			cout << i + 1 << ":";
-			for (unsigned int j = 0; j < CantPalabras(l); j++) {
+			for (int j = 0; j < CantPalabras(l); j++) {
 				
 				Cadena palabra = PalabraEnPosicion(l, j + 1);
 				if (!PerteneceDiccionario(e->d, palabra)) {
@@ -303,8 +305,8 @@ TipoRetorno ImprimirTextoIncorrecto(editor & e){
 
 TipoRetorno ImprimirUltimasPalabras(editor & e){
 // Letra: op. 16 (Opcional). Ultimas MAX_CANT_ULTIMAS_PALABRAS ingresadas.
-	ImprimirUltimasPalabras(e->u);
-	return OK;
+	// TODO: ImprimirUltimasPalabras(e->u); return OK;
+	return NO_IMPLEMENTADA;
 }
 
 TipoRetorno DestruirEditor(editor & e){

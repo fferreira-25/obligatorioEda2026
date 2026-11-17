@@ -61,11 +61,62 @@ diccionario IngresarPalabraDiccionario(diccionario d, Cadena palabra){
 	return d;
 }
 
+static void liberarNodo(diccionario n){
+// Auxiliar: libera la palabra y el nodo n (no toca sus hijos).
+	delete [] n->palabra;
+	delete n;
+}
+
+static diccionario maximoSubarbol(diccionario d){
+// Auxiliar: retorna el nodo con la palabra maxima del subarbol d.
+// Pre: d != NULL.
+	while(d->der != NULL){
+		d = d->der;
+	}
+	return d;
+}
+
 diccionario BorrarPalabraDiccionario(diccionario d, Cadena palabra){
 // Letra: op. 13 BorrarPalabraDiccionario (Tipo 2).
-// Pre: PerteneceDiccionario(d, palabra).
-	// TODO: al encontrar el nodo: hoja / un hijo / dos hijos (reemplazar por
-	// el maximo del subarbol izquierdo y eliminar ese).
+// Elimina la palabra (liberando su memoria) y retorna el diccionario resultante.
+// Pre:  PerteneceDiccionario(d, palabra).
+// Pos:  retorna d sin la palabra; conserva el orden del ABB.
+	if(d == NULL){                                 // no existe: nada que borrar
+		return NULL;
+	}
+	int cmp = strcasecmp(palabra, d->palabra);
+
+	if(cmp < 0){                                   // la palabra esta a la izquierda
+		d->izq = BorrarPalabraDiccionario(d->izq, palabra);
+		return d;
+	}
+	if(cmp > 0){                                   // la palabra esta a la derecha
+		d->der = BorrarPalabraDiccionario(d->der, palabra);
+		return d;
+	}
+
+	// cmp == 0: este es el nodo a borrar. Casos:
+	if(d->izq == NULL){                            // 1) sin hijo izq: lo reemplaza el der (o NULL)
+		diccionario sub = d->der;
+		liberarNodo(d);
+		return sub;
+	}
+	if(d->der == NULL){                            // 2) sin hijo der: lo reemplaza el izq
+		diccionario sub = d->izq;
+		liberarNodo(d);
+		return sub;
+	}
+
+	// 3) dos hijos: reemplazo la palabra por el maximo del subarbol izquierdo
+	//    y elimino ese maximo (que no tiene hijo derecho).
+	diccionario maxIzq = maximoSubarbol(d->izq);
+
+	Cadena copia = new char[strlen(maxIzq->palabra) + 1];
+	strcpy(copia, maxIzq->palabra);
+
+	delete [] d->palabra;                          // libero la palabra vieja
+	d->palabra = copia;                            // queda la del maximo
+	d->izq = BorrarPalabraDiccionario(d->izq, maxIzq->palabra);
 	return d;
 }
 
@@ -91,11 +142,6 @@ void ImprimirDiccionario(diccionario d){
 
 diccionario DestruirDiccionario(diccionario d){
 // Destruye d y libera la memoria asociada. Retorna NULL.
-	if(d != NULL){
-		DestruirDiccionario(d->izq);
-		DestruirDiccionario(d->der);
-		delete [] d->palabra;
-		delete d;
-	}
+	// TODO: post-order: destruir izq, der, delete [] palabra, delete d.
 	return NULL;
 }
