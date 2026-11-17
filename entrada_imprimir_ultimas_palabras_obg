@@ -1,0 +1,13 @@
+InsertarLinea()
+InsertarLinea()
+ImprimirUltimasPalabras()
+InsertarPalabra(2, 1, Palabra21)
+InsertarPalabra(2, 2, Palabra22)
+IngresarPalabraDiccionario(Hoja)
+ImprimirTexto()
+ImprimirUltimasPalabras()
+InsertarPalabra(1, 1, Palabra11)
+InsertarPalabra(1, 2, Palabra12)
+ImprimirTexto()
+ImprimirUltimasPalabras()
+salir
